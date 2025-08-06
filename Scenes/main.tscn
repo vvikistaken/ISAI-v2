@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcq8p4witvu1b"]
+
+[ext_resource type="PackedScene" uid="uid://c7xcwnhi3rhcm" path="res://Scenes/chat_box.tscn" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://c17k2fu8dmr2v" path="res://Scenes/isai_ui_renderer.tscn" id="2_8gbba"]
+[ext_resource type="PackedScene" uid="uid://cnavemln313sj" path="res://Scenes/ui.tscn" id="3_8gbba"]
+
+[node name="Main" type="Node"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChatBox" parent="HBoxContainer" node_paths=PackedStringArray("UI_Ref") instance=ExtResource("1_jjgbg")]
+layout_mode = 2
+size_flags_horizontal = 3
+UI_Ref = NodePath("../../UI")
+
+[node name="ISAIUIRenderer" parent="HBoxContainer" node_paths=PackedStringArray("UI_Ref") instance=ExtResource("2_8gbba")]
+layout_mode = 2
+size_flags_horizontal = 3
+UI_Ref = NodePath("../../UI")
+
+[node name="UI" parent="." instance=ExtResource("3_8gbba")]

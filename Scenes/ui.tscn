@@ -1,0 +1,231 @@
+[gd_scene load_steps=10 format=3 uid="uid://cnavemln313sj"]
+
+[ext_resource type="Texture2D" uid="uid://wxuhm77k07yu" path="res://Graphics/cogwheel.png" id="1_jxero"]
+[ext_resource type="Script" uid="uid://dsn1au8qdfneq" path="res://Scripts/Ui.cs" id="1_qdvrb"]
+[ext_resource type="Texture2D" uid="uid://b8v82gu0c78mg" path="res://Graphics/folder.png" id="3_nf4gj"]
+[ext_resource type="Texture2D" uid="uid://o3oo241k8s75" path="res://Graphics/reset.png" id="4_2246s"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qdvrb"]
+bg_color = Color(0.156863, 0.156863, 0.156863, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.470076, 0.470076, 0.470075, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nf4gj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m78vo"]
+bg_color = Color(1, 0.313726, 0.313726, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 4.0
+expand_margin_top = 2.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_smcll"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 0.470588, 0.470588, 1)
+border_width_left = 4
+border_width_top = 2
+border_width_right = 4
+border_width_bottom = 2
+border_color = Color(1, 0.627451, 0.627451, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 4.0
+expand_margin_top = 2.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nf4gj"]
+bg_color = Color(1, 0.156863, 0.156863, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 4.0
+expand_margin_top = 2.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
+
+[node name="UI" type="Control"]
+top_level = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_qdvrb")
+
+[node name="ModelPathFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.gguf;Quantized Model")
+use_native_dialog = true
+
+[node name="BackgroundFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png,*.jpg,*.jpeg,*.webp;Images")
+use_native_dialog = true
+
+[node name="ClearMemoryDialog" type="ConfirmationDialog" parent="."]
+disable_3d = true
+title = "Please Confirm"
+initial_position = 2
+size = Vector2i(373, 106)
+force_native = true
+ok_button_text = "YES"
+dialog_text = "Are you sure you want to clear ISAI's memory?
+(All of the chat logs will be removed)"
+cancel_button_text = "NO"
+
+[node name="ConfigButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -74.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = 74.0
+grow_horizontal = 0
+icon = ExtResource("1_jxero")
+
+[node name="ConfigPanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(960, 576)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -288.0
+offset_right = 480.0
+offset_bottom = 288.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qdvrb")
+metadata/_edit_group_ = true
+
+[node name="Options" type="VBoxContainer" parent="ConfigPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="Label" parent="ConfigPanel/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Configuration"
+horizontal_alignment = 1
+
+[node name="PathToModel" type="HBoxContainer" parent="ConfigPanel/Options"]
+layout_mode = 2
+
+[node name="PathLabel" type="Label" parent="ConfigPanel/Options/PathToModel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Path to model:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ConfigPanel/Options/PathToModel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+horizontal_scroll_mode = 4
+vertical_scroll_mode = 0
+
+[node name="PathPointer" type="LineEdit" parent="ConfigPanel/Options/PathToModel/ScrollContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+placeholder_text = "a path here . . . (required)"
+editable = false
+expand_to_text_length = true
+
+[node name="LoadPathButton" type="Button" parent="ConfigPanel/Options/PathToModel"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("3_nf4gj")
+
+[node name="BackgroundOptions" type="HBoxContainer" parent="ConfigPanel/Options"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfigPanel/Options/BackgroundOptions"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "ISAI Background:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ConfigPanel/Options/BackgroundOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 4
+vertical_scroll_mode = 0
+
+[node name="BackgroundPointer" type="LineEdit" parent="ConfigPanel/Options/BackgroundOptions/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+placeholder_text = "default background"
+editable = false
+expand_to_text_length = true
+
+[node name="ResetPathButton" type="Button" parent="ConfigPanel/Options/BackgroundOptions"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("4_2246s")
+
+[node name="LoadPathButton" type="Button" parent="ConfigPanel/Options/BackgroundOptions"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("3_nf4gj")
+
+[node name="MemoryOptions" type="HBoxContainer" parent="ConfigPanel/Options"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MemoryLabel" type="Label" parent="ConfigPanel/Options/MemoryOptions"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "ISAI's Memory"
+
+[node name="ClearButton" type="Button" parent="ConfigPanel/Options/MemoryOptions"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_styles/focus = SubResource("StyleBoxEmpty_nf4gj")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m78vo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_smcll")
+theme_override_styles/normal = SubResource("StyleBoxFlat_nf4gj")
+text = "CLEAR"
+
+[node name="Label3" type="Label" parent="ConfigPanel/Options"]
+layout_mode = 2
+text = "<All of Text Generating Parameters - TBD>"
