@@ -5,7 +5,7 @@ import time, sys, subprocess
 def load_llm(model_path: str):
     return Llama(
         model_path=model_path,
-        n_ctx=1024,
+        n_ctx=512,
         n_threads=12,
         n_gpu_layers=-1,
         seed=-1,
@@ -74,6 +74,8 @@ def generate_prompt(llm: Llama, messages: list[dict[str, str]], prompt: str):
         max_tokens=512,
         top_p=0.9,
         min_p=0.1,
+        typical_p=1,
+        top_k=40,
         seed=int(time.time())
     ) 
 

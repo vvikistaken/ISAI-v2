@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cnavemln313sj"]
+[gd_scene load_steps=12 format=3 uid="uid://cnavemln313sj"]
 
 [ext_resource type="Texture2D" uid="uid://wxuhm77k07yu" path="res://Graphics/cogwheel.png" id="1_jxero"]
 [ext_resource type="Script" uid="uid://dsn1au8qdfneq" path="res://Scripts/Ui.cs" id="1_qdvrb"]
@@ -64,6 +64,12 @@ expand_margin_left = 4.0
 expand_margin_top = 2.0
 expand_margin_right = 4.0
 expand_margin_bottom = 2.0
+
+[sub_resource type="Theme" id="Theme_2246s"]
+default_font_size = 18
+
+[sub_resource type="Theme" id="Theme_q7pk6"]
+default_font_size = 18
 
 [node name="UI" type="Control"]
 top_level = true
@@ -143,8 +149,10 @@ theme_override_constants/separation = 8
 
 [node name="Header" type="Label" parent="ConfigPanel/Options"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "Configuration"
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 30
+text = "General Settings"
 horizontal_alignment = 1
 
 [node name="PathToModel" type="HBoxContainer" parent="ConfigPanel/Options"]
@@ -152,7 +160,7 @@ layout_mode = 2
 
 [node name="PathLabel" type="Label" parent="ConfigPanel/Options/PathToModel"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 18
 text = "Path to model:"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ConfigPanel/Options/PathToModel"]
@@ -166,7 +174,7 @@ vertical_scroll_mode = 0
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 18
 placeholder_text = "a path here . . . (required)"
 editable = false
 expand_to_text_length = true
@@ -181,7 +189,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="ConfigPanel/Options/BackgroundOptions"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 18
 text = "ISAI Background:"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ConfigPanel/Options/BackgroundOptions"]
@@ -193,7 +201,7 @@ vertical_scroll_mode = 0
 [node name="BackgroundPointer" type="LineEdit" parent="ConfigPanel/Options/BackgroundOptions/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 18
 placeholder_text = "default background"
 editable = false
 expand_to_text_length = true
@@ -214,18 +222,188 @@ theme_override_constants/separation = 12
 
 [node name="MemoryLabel" type="Label" parent="ConfigPanel/Options/MemoryOptions"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 18
 text = "ISAI's Memory"
 
 [node name="ClearButton" type="Button" parent="ConfigPanel/Options/MemoryOptions"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 18
 theme_override_styles/focus = SubResource("StyleBoxEmpty_nf4gj")
 theme_override_styles/hover = SubResource("StyleBoxFlat_m78vo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_smcll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_nf4gj")
 text = "CLEAR"
 
-[node name="Label3" type="Label" parent="ConfigPanel/Options"]
+[node name="Header2" type="Label" parent="ConfigPanel/Options"]
 layout_mode = 2
-text = "<All of Text Generating Parameters - TBD>"
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 30
+text = "Model Settings"
+horizontal_alignment = 1
+
+[node name="UseGPU" type="HBoxContainer" parent="ConfigPanel/Options"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfigPanel/Options/UseGPU"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Use GPU:"
+
+[node name="GPUCheckButton" type="CheckButton" parent="ConfigPanel/Options/UseGPU"]
+layout_mode = 2
+
+[node name="ThreadCount" type="HBoxContainer" parent="ConfigPanel/Options"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfigPanel/Options/ThreadCount"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "CPU Threads used:"
+
+[node name="ThreadSpinBox" type="SpinBox" parent="ConfigPanel/Options/ThreadCount"]
+layout_mode = 2
+theme = SubResource("Theme_2246s")
+min_value = 1.0
+max_value = 192.0
+value = 1.0
+rounded = true
+
+[node name="ResetButton" type="Button" parent="ConfigPanel/Options/ThreadCount"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("4_2246s")
+
+[node name="MaxTokens" type="HBoxContainer" parent="ConfigPanel/Options"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfigPanel/Options/MaxTokens"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Max tokens:"
+
+[node name="TokenSpinBox" type="SpinBox" parent="ConfigPanel/Options/MaxTokens"]
+layout_mode = 2
+theme = SubResource("Theme_q7pk6")
+min_value = 2.0
+max_value = 8192.0
+value = 512.0
+rounded = true
+
+[node name="ResetButton" type="Button" parent="ConfigPanel/Options/MaxTokens"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("4_2246s")
+
+[node name="Temperature" type="HBoxContainer" parent="ConfigPanel/Options"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfigPanel/Options/Temperature"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Temperature:"
+
+[node name="TemperatureSpinBox" type="SpinBox" parent="ConfigPanel/Options/Temperature"]
+layout_mode = 2
+theme = SubResource("Theme_q7pk6")
+min_value = 0.1
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="ResetButton" type="Button" parent="ConfigPanel/Options/Temperature"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("4_2246s")
+
+[node name="Top&MinP" type="HBoxContainer" parent="ConfigPanel/Options"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="MinP" type="HBoxContainer" parent="ConfigPanel/Options/Top&MinP"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfigPanel/Options/Top&MinP/MinP"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Min P:"
+
+[node name="MinPSpinBox" type="SpinBox" parent="ConfigPanel/Options/Top&MinP/MinP"]
+layout_mode = 2
+theme = SubResource("Theme_q7pk6")
+min_value = 0.01
+max_value = 1.0
+step = 0.01
+value = 0.05
+
+[node name="ResetButton" type="Button" parent="ConfigPanel/Options/Top&MinP/MinP"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("4_2246s")
+
+[node name="TopP" type="HBoxContainer" parent="ConfigPanel/Options/Top&MinP"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfigPanel/Options/Top&MinP/TopP"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Top P:"
+
+[node name="TopPSpinBox" type="SpinBox" parent="ConfigPanel/Options/Top&MinP/TopP"]
+layout_mode = 2
+theme = SubResource("Theme_q7pk6")
+min_value = 0.01
+max_value = 1.0
+step = 0.01
+value = 0.95
+
+[node name="ResetButton" type="Button" parent="ConfigPanel/Options/Top&MinP/TopP"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("4_2246s")
+
+[node name="TypicalP&TopK" type="HBoxContainer" parent="ConfigPanel/Options"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="TypicalP" type="HBoxContainer" parent="ConfigPanel/Options/TypicalP&TopK"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfigPanel/Options/TypicalP&TopK/TypicalP"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Typical P:"
+
+[node name="TypicalPSpinBox" type="SpinBox" parent="ConfigPanel/Options/TypicalP&TopK/TypicalP"]
+layout_mode = 2
+theme = SubResource("Theme_q7pk6")
+min_value = 0.01
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="ResetButton" type="Button" parent="ConfigPanel/Options/TypicalP&TopK/TypicalP"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("4_2246s")
+
+[node name="TopK" type="HBoxContainer" parent="ConfigPanel/Options/TypicalP&TopK"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfigPanel/Options/TypicalP&TopK/TopK"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Top K:"
+
+[node name="TopKSpinBox" type="SpinBox" parent="ConfigPanel/Options/TypicalP&TopK/TopK"]
+layout_mode = 2
+theme = SubResource("Theme_q7pk6")
+min_value = 1.0
+max_value = 160.0
+value = 40.0
+rounded = true
+
+[node name="ResetButton" type="Button" parent="ConfigPanel/Options/TypicalP&TopK/TopK"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("4_2246s")

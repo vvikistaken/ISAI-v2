@@ -54,7 +54,8 @@ public partial class ChatBox : Panel
             ToggleUserInput(); //turn on
             _chatLog.Text += $"\nISAI: {response}\n";
         }
-        _chatLog.ScrollToLine(_chatLog.GetLineCount() - 1);
+        // unnessesarry, there's already a function for that
+        //_chatLog.ScrollToLine(_chatLog.GetLineCount() - 1);
     }
 
     private string GenerateResponse(string message)
