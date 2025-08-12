@@ -285,7 +285,7 @@ text = "Max tokens:"
 [node name="TokenSpinBox" type="SpinBox" parent="ConfigPanel/Options/MaxTokens"]
 layout_mode = 2
 theme = SubResource("Theme_q7pk6")
-min_value = 2.0
+min_value = 512.0
 max_value = 8192.0
 value = 512.0
 rounded = true

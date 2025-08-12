@@ -2,12 +2,12 @@ from llama_cpp import Llama
 from pathlib import Path
 import time, sys, subprocess
 
-def load_llm(model_path: str):
+def load_llm(model_path: str, max_tokens: int, thread_count: int, gpu_offload: bool):
     return Llama(
-        model_path=model_path,
-        n_ctx=512,
-        n_threads=12,
-        n_gpu_layers=-1,
+        model_path= model_path,
+        n_ctx= max_tokens,
+        n_threads= thread_count,
+        n_gpu_layers= (-1 if gpu_offload == True else 0),
         seed=-1,
         verbose=False
     )
@@ -60,7 +60,10 @@ def load_messages():
 
         return memory
 
-def generate_prompt(llm: Llama, messages: list[dict[str, str]], prompt: str):
+def generate_prompt(
+    llm: Llama, messages: list[dict[str, str]], prompt: str,
+    temperature: float, top_p: float, min_p: float, typical_p: float, top_k: int
+):
     messages.append(
         {
             "role": "user",
@@ -69,13 +72,13 @@ def generate_prompt(llm: Llama, messages: list[dict[str, str]], prompt: str):
     )
 
     response = llm.create_chat_completion(
-        messages=messages,
-        temperature=1.2,
-        max_tokens=512,
-        top_p=0.9,
-        min_p=0.1,
-        typical_p=1,
-        top_k=40,
+        messages= messages,
+        temperature= temperature,
+        top_p= top_p,
+        min_p= min_p,
+        typical_p= typical_p,
+        top_k= top_k,
+        max_tokens=0,
         seed=int(time.time())
     ) 
 
@@ -87,18 +90,42 @@ def generate_prompt(llm: Llama, messages: list[dict[str, str]], prompt: str):
     )
     return response["choices"][0]["message"]["role"], response["choices"][0]["message"]["content"]
 
-def main(arg1, arg2):
-    # arg1 - model_path
-    # arg2 - user message
+def main(model, user_message, parameters):
+    # arguments legend
+    # model  - model_path
+    # user_message  - user message
+    # parameters
+    # 0  - gpu offload activated
+    # 1  - cpu threads
+    # 2  - max tokens
+    # 3  - temperature 
+    # 4  - min p
+    # 5  - top p
+    # 6  - typical p
+    # 7  - top k 
     
-    llm = load_llm(arg1)
+    llm = load_llm(
+        model, 
+        max_tokens= int(parameters[2]), 
+        thread_count= int(parameters[1]), 
+        gpu_offload= bool(parameters[0])
+    )
     messages = load_messages()
-    response = generate_prompt(llm, messages, arg2)
+    response = generate_prompt(
+        llm,
+        messages,
+        user_message, 
+        temperature= float(parameters[3]),
+        top_p= float(parameters[5]),
+        min_p= float(parameters[4]),
+        typical_p= float(parameters[6]),
+        top_k= int(parameters[7])
+    )
 
     # Save the conversation to memory
     memory_file_path = Path.cwd() / "memory.txt"
     f = open(memory_file_path, "a")
-    f.write(f":end:user: {arg2}\n")
+    f.write(f":end:user: {user_message}\n")
     f.write(f":end:{response[0]}: {response[1]} \n")
     f.close()
 
@@ -108,10 +135,18 @@ def main(arg1, arg2):
 
 if __name__ == "__main__":
     # single test
-    #args = ["/home/vvik/Documents/programming projects/python/llm_assistant/L3-Dark-Planet-8B-D_AU-q5_k_m.gguf", "Helloo"]
-    
+    """
+    args = [
+        "/home/vvik/Documents/programming projects/python/llm_assistant/L3-Dark-Planet-8B-D_AU-q5_k_m.gguf",
+        "Helloo",
+        "false", "1",
+        "512", "1.0",
+        "0.05", "0.95",
+        "1.0", "40"
+    ]
+    """
     #production
     args = sys.argv[1:]
 
     
-    main(args[0], args[1])
+    main(args[0], args[1], args[2:10])

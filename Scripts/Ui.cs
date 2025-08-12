@@ -20,7 +20,7 @@ public partial class Ui : Control
     SpinBox _threadSpinBox, _tokenSpinBox, _temperatureSpinBox,
      _minPSpinBox, _topPSpinBox, _typicalPSpinBox, _topKSpinBox;
     Button _threadReset, _tokenReset, _temperatureReset, _minPReset,
-    _topPReset, _typicalPReset, _topKReset ;
+    _topPReset, _typicalPReset, _topKReset;
 
     public override void _Ready()
     {
@@ -43,7 +43,7 @@ public partial class Ui : Control
         _clearMemoryDialog = GetNode<ConfirmationDialog>("ClearMemoryDialog");
         // model setting
         _gpuCheckButton = _configPanel.GetNode<CheckButton>("Options/UseGPU/GPUCheckButton");
-            // spinbox
+        // spinbox
         _threadSpinBox = _configPanel.GetNode<SpinBox>("Options/ThreadCount/ThreadSpinBox");
         _tokenSpinBox = _configPanel.GetNode<SpinBox>("Options/MaxTokens/TokenSpinBox");
         _temperatureSpinBox = _configPanel.GetNode<SpinBox>("Options/Temperature/TemperatureSpinBox");
@@ -51,7 +51,7 @@ public partial class Ui : Control
         _topPSpinBox = _configPanel.GetNode<SpinBox>("Options/Top&MinP/TopP/TopPSpinBox");
         _typicalPSpinBox = _configPanel.GetNode<SpinBox>("Options/TypicalP&TopK/TypicalP/TypicalPSpinBox");
         _topKSpinBox = _configPanel.GetNode<SpinBox>("Options/TypicalP&TopK/TopK/TopKSpinBox");
-            // reset buttons
+        // reset buttons
         _threadReset = _configPanel.GetNode<Button>("Options/ThreadCount/ResetButton");
         _tokenReset = _configPanel.GetNode<Button>("Options/MaxTokens/ResetButton");
         _temperatureReset = _configPanel.GetNode<Button>("Options/Temperature/ResetButton");
@@ -188,4 +188,22 @@ public partial class Ui : Control
         _typicalPSpinBox.Value = (double)config.GetValue("Model", "TypicalP", 1.0);
         _topKSpinBox.Value = (int)config.GetValue("Model", "TopK", 40);
     }
+
+    public Tuple<string, bool, double[]> GetModelParameters()
+    {
+        return new Tuple<string, bool, double[]>(
+            _pathPointer.Text,
+            _gpuCheckButton.ButtonPressed,
+            new double[]{
+                _threadSpinBox.Value,
+                _tokenSpinBox.Value,
+                _temperatureSpinBox.Value,
+                _minPSpinBox.Value,
+                _topPSpinBox.Value,
+                _typicalPSpinBox.Value,
+                _topKSpinBox.Value
+            }
+        );
+    }
+    
 }

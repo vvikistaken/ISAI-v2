@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -13,6 +14,7 @@ public partial class ChatBox : Panel
 
     [Export]
     public Ui UI_Ref;
+    private Tuple<string, bool, double[]> modelParameters;
 
     public override void _Ready()
     {
@@ -60,14 +62,23 @@ public partial class ChatBox : Panel
 
     private string GenerateResponse(string message)
     {
+        var modelParameters = UI_Ref.GetModelParameters();
         GD.Print("Sending message to model...");
         Godot.Collections.Array output = [];
         OS.Execute(
             "Scripts/LocalEnv/bin/python",
             new string[]{
                 $"Scripts/llm.py",
-                "/home/vvik/Documents/programming projects/python/llm_assistant/L3-Dark-Planet-8B-D_AU-q5_k_m.gguf",
-                message
+                modelParameters.Item1,
+                message,
+                Convert.ToString(modelParameters.Item2),
+                Convert.ToString(modelParameters.Item3[0]),
+                Convert.ToString(modelParameters.Item3[1]),
+                Convert.ToString(modelParameters.Item3[2]),
+                Convert.ToString(modelParameters.Item3[3]),
+                Convert.ToString(modelParameters.Item3[4]),
+                Convert.ToString(modelParameters.Item3[5]),
+                Convert.ToString(modelParameters.Item3[6]),
             },
             output,
             readStderr: true
